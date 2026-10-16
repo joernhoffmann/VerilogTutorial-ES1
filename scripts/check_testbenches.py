@@ -98,6 +98,10 @@ def extract():
 
 def fault(solution):
     bad, count = re.subn(r"(assign\s+\w+\s*=)[^;]*;", r"\1 '0;", solution, count=1)
+    if count == 0:
+        # Prozedurale Musterlösungen: erste blockierende/Registerzuweisung verfälschen.
+        bad, count = re.subn(r"(^\s*\w+\s*(?:<=|=))[^;]*;", r"\1 '0;",
+                             solution, count=1, flags=re.M)
     if count != 1:
         raise ValueError("Fehlerprobe benötigt Anpassung")
     return bad

@@ -52,7 +52,8 @@ def main():
         body = text[match.end():matches[i + 1].start() if i + 1 < len(matches) else len(text)]
         metadata = dict(re.findall(r'^(\w+):\s*"?([^"\n]+)"?$', match.group(0), re.M))
         identifier = match.group(1)
-        require(metadata.get("difficulty") == "intro", f"{identifier}: difficulty ist nicht intro")
+        expected_difficulty = "beginner" if 500 <= int(identifier) < 700 else "intro"
+        require(metadata.get("difficulty") == expected_difficulty, f"{identifier}: difficulty muss {expected_difficulty} sein")
         require(metadata.get("type") in ("theory", "exercise"), f"{identifier}: ungültiger type")
         require(int(metadata.get("duration_min", "-1")) >= 0, f"{identifier}: ungültige Dauer")
         title = metadata["lesson_title"]
@@ -108,7 +109,7 @@ def main():
                         result = subprocess.run(["verilator", "--lint-only", "--timing", "--top-module", module, str(source)], capture_output=True, text=True)
                         require(result.returncode == 0, f"{identifier}: Beispiel kompiliert nicht\n{result.stderr}")
                         examples += 1
-    print(f"{len(ids)} Lektionen: IDs, Titel, intro-Metadaten und Inhaltsverzeichnis gültig.")
+    print(f"{len(ids)} Lektionen: IDs, Titel, Schwierigkeitsgrade und Inhaltsverzeichnis gültig.")
     print(f"{exercises} Übungen: Nummerierung, Abschnitte, Porttabellen und Codebereiche gültig.")
     print(f"{examples} vollständige Beispielmodule ohne Verilator-Warnungen geprüft; {fragments} Syntaxfragmente separat gezählt.")
     print(f"{len(images)} eingebundene PNGs vorhanden; alle internen Links gültig.")

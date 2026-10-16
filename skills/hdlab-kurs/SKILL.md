@@ -112,8 +112,8 @@ mit der signed-Prüfhilfe vergleichen. Die optionale Anzeigebreite von
 `assert_equal` verändert nicht die Vergleichsbreite.
 
 Gezielte Fälle, Grenzwerte und Rückkehr zu früheren Eingaben auswählen.
-Sollwerte möglichst unabhängig von der Musterlösung festlegen. Die aktuellen
-Übungen sind kombinatorisch. Für spätere getaktete Aufgaben zeigt
+Sollwerte möglichst unabhängig von der Musterlösung festlegen. Kapitel 6 führt kombinatorische und getaktete prozedurale Blöcke ein.
+Kapitel 5 und 6 sind `beginner`, Kapitel 0–4 sind `intro`. Für getaktete Aufgaben zeigt
 `testbenches/clocked-example.sv` Takterzeugung, `tick()` und einen synchronen,
 High-aktiven Reset. Reset-Semantik jeweils aus der Aufgabe ableiten. Eingänge
 an der fallenden Flanke ändern und nach der steigenden Flanke erst nach den

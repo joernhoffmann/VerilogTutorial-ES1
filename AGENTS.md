@@ -46,7 +46,8 @@ type: "theory"
 - IDs müssen eindeutig sein und in der Datei aufsteigend angeordnet werden.
 - Bei Umstellungen IDs, sichtbare Nummerierung, `lesson_title`,
   Inhaltsverzeichnis und betroffene Querverweise gemeinsam anpassen.
-- Alle derzeitigen Kursinhalte tragen `difficulty: "intro"`.
+- Kapitel 0–4 tragen `difficulty: "intro"`, Kapitel 5–6 einschließlich
+  ihrer Übungen `difficulty: "beginner"`.
   `type` ist `theory` oder `exercise`.
 - `duration_min` soll zum tatsächlichen Umfang passen.
 - SystemVerilog-Codeblöcke bleiben für HDLab als `verilog` ausgezeichnet.
