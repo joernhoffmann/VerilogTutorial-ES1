@@ -32,6 +32,13 @@ Formulierungen und kein unnötig akademischer Stil. Fachbegriffe erklären,
 bevor sie für eine Erklärung benötigt werden. Durchgearbeitete Beispiele
 statt bloßer Behauptungen verwenden.
 
+Den Einstieg kompakt halten: nur Konzepte erklären, die für die jeweilige
+Lektion und ihre Übung benötigt werden. Im aktuellen Einführungstext keine
+X/Z-Zustände oder Simulatorvergleiche behandeln. Zusätzliche Datentypen,
+bidirektionale Ports, Zweierkomplement-Sonderfälle und Vorzeichenerweiterung
+nicht vorziehen. Nötige Rechenschritte und konkrete Beispiele erhalten;
+Kürzen darf keine fachlich falschen Vereinfachungen erzeugen.
+
 Eine Lektion soll einen nachvollziehbaren Lernschritt bilden:
 
 - An vorhandenes Wissen anschließen und das neue Konzept erklären.
@@ -128,8 +135,9 @@ geprüft werden.
 - Zahlenwert, Bitmuster, Zahlenbasis, Bitbreite und Vorzeicheninterpretation
   getrennt erklären. Bei Beispielen die verwendete Interpretation angeben.
 - Zweierkomplement über negative Stellengewichte erklären, dann die
-  Bildung durch Invertieren und Addieren von 1 herleiten. Wertebereich,
-  signed-Überlauf und Vorzeichenerweiterung an passenden Beispielen zeigen.
+  Bildung durch Invertieren und Addieren von 1 herleiten. Den Wertebereich
+  mit einem Beispiel zeigen; Überlauf und Vorzeichenerweiterung erst bei
+  einer passenden späteren Aufgabe vertiefen.
 - Hardwarebeschreibung und CPU-Programm unterscheiden. Die Reihenfolge
   kontinuierlicher Zuweisungen ist keine zeitliche Ausführungsfolge.
 - Den vereinbarten deutschen Begriff **kontinuierliche Zuweisung (`assign`)**
