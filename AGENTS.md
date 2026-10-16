@@ -34,7 +34,7 @@ Jede Lektion beginnt mit einem HTML-Kommentar mit folgenden Metadaten:
 <!--
 lesson_id: 101
 lesson_title: "1.1 Binär und Hexadezimal"
-difficulty: "beginner"
+difficulty: "intro"
 duration_min: 15
 type: "theory"
 -->
@@ -108,12 +108,16 @@ Die Prüfung auf den geänderten Inhalt beschränken:
 
 - Bei redaktionellen Änderungen: Fachlichkeit, vorausgesetztes Wissen,
   Beispiele, Metadaten, Inhaltsverzeichnis und Bildverweise prüfen.
-- Bei Codeänderungen: `make check-testbenches` ausführen. Der Prüflauf
-  simuliert die Musterlösungen mit Icarus Verilog, prüft gezielt fehlerhafte
-  Varianten und kontrolliert das `TEST_SOLVED`-Gesamtergebnis. Ein erfolgreicher
-  Simulationsprozess allein genügt nicht. Für den lokalen Verilator-Abgleich
-  steht `make check-testbenches-verilator` bereit. Die Tests verwenden
-  isolierte temporäre Dateien.
+- Bei Codeänderungen: `make check-testbenches` ausführen. Maßgeblich ist
+  **Verilator**, da HDLab diesen Simulator verwendet. Ohne pauschales
+  `-Wno-fatal` kompilieren, wie im HDLab-Entrypoint. Musterlösungen,
+  gezielt fehlerhafte Varianten, Prüfhilfen und das Taktbeispiel prüfen;
+  `TEST_SOLVED` kontrollieren, nicht nur den Prozessstatus.
+- `make check-course` prüft die Kursstruktur und vollständige Codebeispiele
+  mit strengem Verilator-Lint. `make check` führt beide Prüfungen aus.
+- `make check-testbenches-iverilog` ergänzt die Prüfung um Icarus und X/Z.
+  Diese 4-State-Prüfung ist kein Nachweis für das Verhalten in HDLab.
+  Alle Simulatorprüfungen verwenden isolierte temporäre Dateien.
 - Bei Abbildungen: PNGs erzeugen, Bildverweise prüfen und die tatsächlichen
   Bilder auf Lesbarkeit, Überlappungen, abgeschnittene Elemente und
   fachlich richtige Verbindungen ansehen.

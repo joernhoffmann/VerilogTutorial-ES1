@@ -34,3 +34,12 @@ check-testbenches:
 
 check-testbenches-verilator:
 	python3 scripts/check_testbenches.py --verilator
+
+.PHONY: check check-course check-testbenches-iverilog
+check: check-course check-testbenches
+
+check-course:
+	python3 scripts/check_course.py
+
+check-testbenches-iverilog:
+	python3 scripts/check_testbenches.py --iverilog

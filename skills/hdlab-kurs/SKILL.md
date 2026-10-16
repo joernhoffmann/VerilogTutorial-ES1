@@ -112,7 +112,11 @@ High-aktiven Reset. Reset-Semantik jeweils aus der Aufgabe ableiten. Eingänge
 an der fallenden Flanke ändern und nach der steigenden Flanke erst nach den
 Nonblocking-Zuweisungen prüfen. Jeder Ablauf benötigt einen Timeout.
 
-HDLab verwendet Verilator mit zwei Zuständen. X/Z-Prüfungen nur im
+HDLab verwendet Verilator mit zwei Zuständen. `make check-testbenches` muss
+standardmäßig Verilator mit fatalen Warnungen verwenden. Auch fehlerhafte
+Lösungen und die Prüfhilfen damit testen; Icarus ist nur eine optionale
+Ergänzung. Vollständige Codebeispiele mit `make check-course` prüfen.
+X/Z-Prüfungen nur im
 4-State-Simulator ausführen und in Verilator nicht als bewiesene Eigenschaft
 ausgeben. Der lokale HDLab-Worker begrenzt den Lauf auf 100 Zeitschritte;
 die aktuellen Testbenches beenden sich vorher oder melden über den Watchdog

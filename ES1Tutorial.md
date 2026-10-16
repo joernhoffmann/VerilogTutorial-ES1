@@ -419,9 +419,9 @@ Das Modul stellt dieselbe Zahl in drei Schreibweisen bereit.
 
 | Port | Richtung | Typ | Beschreibung |
 |------|----------|-----|--------------|
-| `binary_out` | `output` | `logic [3:0]` | Binär dargestellter Wert |
-| `hex_out` | `output` | `logic [3:0]` | Hexadezimal dargestellter Wert |
-| `decimal_out` | `output` | `logic [3:0]` | Dezimal dargestellter Wert |
+| `binary_out` | `output` | `logic [3:0]` | Konstanter 4-Bit-Wert; im Quelltext binär angegeben |
+| `hex_out` | `output` | `logic [3:0]` | Konstanter 4-Bit-Wert; im Quelltext hexadezimal angegeben |
+| `decimal_out` | `output` | `logic [3:0]` | Konstanter 4-Bit-Wert; im Quelltext dezimal angegeben |
 
 #### Verhalten
 
@@ -1833,7 +1833,9 @@ Der SystemVerilog-Datentyp **`logic`** kann pro Bit vier Zustände darstellen:
 | `x` | Unbekannter Wert, etwa bei fehlender Initialisierung |
 | `z` | Hochohmig, etwa bei einem freigegebenen Anschluss |
 
-Der Typ **`bit`** besitzt nur die zwei Zustände 0 und 1. Wir verwenden zunächst `logic`, damit unbekannte Werte in der Simulation sichtbar bleiben.
+**Hinweis zu HDLab:** Verilator simuliert mit zwei Zuständen. `logic` bleibt ein gültiger SystemVerilog-Datentyp, unbekannte (`x`) und hochohmige (`z`) Werte können in HDLab jedoch nicht wie in einem 4-State-Simulator beobachtet oder geprüft werden.
+
+Der Typ **`bit`** besitzt nur die zwei Zustände 0 und 1. Die Beispiele verwenden `logic`, um die 4-State-Sprachsemantik beizubehalten. In Verilator bleiben die Simulation und die Auswertung dennoch auf zwei Zustände beschränkt.
 
 **`wire`** kennzeichnet ein Netz, also eine Verbindung. `logic` beschreibt einen Datentyp und kann beispielsweise für interne Variablen und Ausgangsports mit einem Treiber verwendet werden. Ob Hardware einen Speicher benötigt, hängt von der beschriebenen Logik ab, nicht allein vom Wort `logic`.
 
@@ -1879,7 +1881,7 @@ Ein internes Signal verbindet den Eingang mit dem Ausgang des Moduls.
 #### Verhalten
 
 - `signal_out` folgt unverändert `signal_in`.
-- Auch die Simulationszustände `x` und `z` werden unverändert weitergeleitet.
+- Nach der SystemVerilog-Sprachsemantik werden auch `x` und `z` unverändert weitergeleitet. Dieser Teil ist mit Verilator in HDLab nicht überprüfbar; die HDLab-Tests prüfen 0 und 1.
 
 #### Realisierung
 
@@ -2534,12 +2536,14 @@ module module_operators(
 );
 
 assign bitwise_and_out = a & b;
-assign logical_and_out = a && b;
+assign logical_and_out = (a != 4'b0000) && (b != 4'b0000);
 assign inverted_out = ~a;
-assign is_zero_out = !a;
+assign is_zero_out = !(a != 4'b0000);
 
 endmodule
 ```
+
+Die Vergleiche mit null wandeln beide Vektoren ausdrücklich in 1-Bit-Wahrheitswerte um. Die anschließende Verknüpfung mit `&&` hat für die verwendeten 0/1-Eingangswerte dieselbe Wirkung wie `a && b`. Entsprechend wirkt `!(a != 0)` wie `!a`. Die explizite Umwandlung vermeidet Verilator-Warnungen über mehrbitige logische Operanden.
 
 Bei unbekannten Bits (`x` oder `z`) kann auch der Wahrheitswert unbekannt sein. In den ersten Aufgaben prüfen wir die Operatoren mit bekannten 0/1-Werten. Verwenden Sie Klammern, um die beabsichtigte Reihenfolge klar zu machen.
 
@@ -2570,7 +2574,7 @@ Das Modul zeigt den Unterschied zwischen bitweisem und logischem AND bei Vektore
 
 - Jedes Bit von `bitwise_out` ist das AND der entsprechenden Bits von `a` und `b`.
 - `logical_out` ist 1, wenn beide Eingangsvektoren ungleich null sind, sonst 0.
-- Beispiel: `a = 0010`, `b = 0100` ergibt `bitwise_out = 0000` und `logical_out = 1`.
+- Beispiel: `a = 4'b0010`, `b = 4'b0100` ergibt `bitwise_out = 4'b0000` und `logical_out = 1'b1`.
 
 #### Realisierung
 
@@ -2603,7 +2607,7 @@ module module_bitwise_logical(
 );
 
 assign bitwise_out = a & b;
-assign logical_out = a && b;
+assign logical_out = (a != 4'b0000) && (b != 4'b0000);
 
 endmodule
 ```
@@ -2999,7 +3003,7 @@ type: "theory"
 | `<`, `<=`, `>`, `>=` | Kleiner, kleiner gleich, größer, größer gleich |
 | `==`, `!=` | Gleichheit, Ungleichheit |
 
-`==` und `!=` gehören zu den Gleichheitsoperatoren. Bei unbekannten Bits kann ein Vergleich `x` ergeben. Die Testbenches verwenden dagegen `===`, um auch `x` und `z` eindeutig zu vergleichen.
+`==` und `!=` gehören zu den Gleichheitsoperatoren. Bei unbekannten Bits kann ein Vergleich `x` ergeben. Die Prüfhilfen verwenden `===`, das in einem 4-State-Simulator auch `x` und `z` eindeutig vergleicht. In HDLab prüft Verilator damit die bekannten 0/1-Werte; eine X/Z-Prüfung ist dort nicht möglich.
 
 **Beispiel:** Für `a = 4'd15` und `b = 4'd1` ist die Summe 16. Dafür benötigen wir **5 Bit**. Ein 4-Bit-Ergebnis würde auf 0 überlaufen.
 

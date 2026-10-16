@@ -84,17 +84,32 @@ Alle Prüfaufrufe werden mit `all_passed &= ...` verknüpft.
 
 ```sh
 make testbenches              # Prüfhilfen ins Tutorial übernehmen
-make check-testbenches       # Musterlösungen, Fehlerproben und Prüfhilfen testen
-make check-testbenches-verilator  # Zusätzlich lokaler Verilator-Abgleich
+make check-testbenches       # Strenge Verilator-Prüfung inkl. Fehlerproben
+make check-course           # Metadaten, Links, Ports und Codebeispiele prüfen
+make check                  # Kursstruktur und Verilator-Testbenches prüfen
+make check-testbenches-iverilog  # Zusätzlich Icarus mit X/Z-Prüfungen
 ```
 
-Voraussetzungen: Python 3 und Icarus Verilog (`iverilog`, `vvp`). Der optionale
-Verilator-Abgleich benötigt außerdem Verilator, Make und einen C++-Compiler.
+Voraussetzungen: Python 3, Verilator, Make und ein C++-Compiler. **Verilator
+ist der maßgebliche Simulator**, weil HDLab ihn verwendet. Die Prüfung
+kompiliert ohne pauschales `-Wno-fatal`: Warnungen führen wie beim lokalen
+HDLab-Entrypoint zum Fehler. Logische Vektoren werden in den ausführbaren
+Beispielen vor der Verknüpfung ausdrücklich mit null verglichen.
 Die Prüfungen erzeugen ihre Dateien in temporären Verzeichnissen.
-Der Verilator-Abgleich lässt Warnungen sichtbar, behandelt sie aber nicht als
-Abbruchgrund: Einige Versionen warnen bei den absichtlich mehrbitigen
-logischen Operanden in Übung 4.1.a. Die Warnungsbehandlung des installierten
-HDLab-Simulators kann davon abweichen.
+
+Optional prüft `--iverilog` zusätzlich mit Icarus Verilog (`iverilog`, `vvp`).
+`--verilator` bleibt als kompatibler Alias erhalten, ist aber nicht mehr nötig.
+Ein vorhandener HDLab-Checkout lässt sich zusätzlich über seine tatsächlichen
+Backendfunktionen prüfen, ohne Dienste zu starten oder dort Dateien zu ändern:
+
+```sh
+python3 scripts/check_testbenches.py --hdlab-source /pfad/zum/HDLab
+```
+
+Die Skripte geben die verwendete Verilator-Version aus. Der lokale HDLab-
+Dockerfile nennt Version 5.036; zuletzt wurde hier lokal Version 5.048 geprüft.
+Ein Test der laufenden oder bereitgestellten HDLab-Instanz ist damit nicht
+verbunden.
 
 `testbenches/clocked-example.sv` ist ein vollständiges, geprüftes Beispiel für
 spätere getaktete Aufgaben: Hintergrundtakt, `tick()`, synchroner High-Reset,
