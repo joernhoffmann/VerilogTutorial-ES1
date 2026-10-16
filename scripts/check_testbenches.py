@@ -175,7 +175,7 @@ def check_helpers():
         directory = Path(directory)
         executable = compile_verilator("", code, "tb_clocked_example", directory)
         good = run([str(executable)], directory)
-        bad_code = code.replace("data_out <= data_in;", "data_out <= 4'd0;")
+        bad_code = code.replace("a_out <= e_in;", "a_out <= 4'd0;")
         executable = compile_verilator("", bad_code, "tb_clocked_example", directory)
         check_failure(good, run([str(executable)], directory))
     print("Verilator: Prüfhilfen, Folgeprüfungen, leere Läufe und Timeout bestanden.", flush=True)

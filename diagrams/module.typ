@@ -8,16 +8,16 @@
   label(148, 48, [`module_copy`], width: 224, size: 12, color: white)
 
   // Anschlüsse außerhalb, Implementierung innerhalb der Modulgrenze.
-  label(0, 100, [`signal_in`], width: 132)
+  label(0, 100, [`e_in`], width: 132)
   label(0, 138, [Eingang · `input`], width: 132, size: 9, color: muted)
   arrow(18, 127, 148)
-  label(388, 100, [`signal_out`], width: 132)
+  label(388, 100, [`a_out`], width: 132)
   label(388, 138, [Ausgang · `output`], width: 132, size: 9, color: muted)
   arrow(372, 127, 502)
 
   label(158, 89, [Implementierung], width: 204, size: 9, color: muted)
   frame(166, 111, 188, 32, fill: white, radius: 4)
-  label(166, 122, [`signal_out = signal_in`], width: 188, size: 9)
+  label(166, 122, [`a_out = e_in`], width: 188, size: 9)
   segment(148, 127, 166, 127, color: accent)
   segment(354, 127, 372, 127, color: accent)
   label(148, 157, [Kontinuierliche Zuweisung · `assign`], width: 224, size: 8, color: muted)

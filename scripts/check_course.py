@@ -19,6 +19,63 @@ def slug(text):
     return re.sub(r"[^\w\s-]", "", text).replace(" ", "-")
 
 
+def module_ports(code):
+    clean = re.sub(r"//[^\n]*|/\*.*?\*/", "", code, flags=re.S)
+    match = re.search(r"\bmodule\s+(\w+)\s*\((.*?)\);", clean, re.S)
+    require(match is not None, "Modul mit Portliste fehlt")
+    ports = {}
+    for item in match.group(2).split(","):
+        words = item.split()
+        if not words:
+            continue
+        require(words[0] in ("input", "output", "inout"), f"Nicht unterstützte Portdeklaration: {item}")
+        ports[words[-1]] = (words[0], " ".join(words[1:-1]) or "wire")
+    return match.group(1), ports
+
+
+def check_port_names(ports):
+    for name, (direction, _) in ports.items():
+        suffix = {"input": "_in", "output": "_out", "inout": "_io"}[direction]
+        require(name.endswith(suffix), f"Port {name}: Richtungssuffix {suffix} fehlt")
+        require(name not in ("clk", "rst", "clk_i", "rst_i"), f"Port {name}: clk_in/rst_in verwenden")
+
+
+def signal_shape(kind):
+    # Wire und logic sind als TB-Verbindung kompatibel; Breite/Vorzeichen müssen passen.
+    width = re.search(r"\[[^]]+\]", kind)
+    return ("signed" in kind.split(), re.sub(r"\s+", "", width.group()) if width else "[0:0]")
+
+
+def check_interfaces(identifier, blocks, solution_ports):
+    solution_name, _ = module_ports(blocks["SOLUTION"])
+    check_port_names(solution_ports)
+    scaffold_name, scaffold_ports = module_ports(blocks["EXERCISE"])
+    require(scaffold_name == solution_name, f"{identifier}: Modulname im Codegerüst abweichend")
+    require(set(scaffold_ports) <= set(solution_ports), f"{identifier}: Zusätzliche/falsch benannte Ports im Codegerüst")
+    for name, declaration in scaffold_ports.items():
+        require(declaration == solution_ports[name], f"{identifier}: Port {name} im Codegerüst abweichend")
+    header = blocks["EXERCISE"].split(");", 1)[0]
+    for name in set(solution_ports) - set(scaffold_ports):
+        direction = {"input": "Eingang", "output": "Ausgang", "inout": "Ein-/Ausgang"}[solution_ports[name][0]]
+        require(re.search(r"//[^\n]*\b" + re.escape(direction) + r"\s+" + re.escape(name) + r"\b", header),
+                f"{identifier}: Fehlender Port {name} muss im Codegerüst namentlich vorgegeben sein")
+    bench = blocks["TESTBENCH"].split("// END TEST HELPERS", 1)[-1]
+    instance = re.search(r"\b(\w+)\s+dut\s*\((.*?)\);", bench, re.S)
+    require(instance is not None and instance.group(1) == solution_name, f"{identifier}: DUT-Modulname passt nicht")
+    connections = dict(re.findall(r"\.(\w+)\s*\(\s*(\w+)\s*\)", instance.group(2)))
+    require(set(connections) == set(solution_ports), f"{identifier}: DUT-Portanschlüsse fehlen oder sind falsch benannt")
+    declarations = {}
+    for kind, variables in re.findall(r"^\s*((?:logic|wire|reg)(?:\s+signed)?(?:\s*\[[^]]+\])?)\s+([^;]+);", bench, re.M):
+        for variable in variables.split(","):
+            name = variable.split("=", 1)[0].strip()
+            declarations[name] = kind
+    for port, signal in connections.items():
+        require(port == signal, f"{identifier}: TB-Signal {signal} soll wie Port {port} heißen")
+        require(signal in declarations, f"{identifier}: TB-Signal {signal} nicht deklariert")
+        require(signal_shape(declarations[signal]) == signal_shape(solution_ports[port][1]),
+                f"{identifier}: Breite/Vorzeichen des TB-Signals {signal} passt nicht")
+
+
 def main():
     text = (ROOT / "ES1Tutorial.md").read_text()
     matches = list(re.finditer(r"<!--\s*\nlesson_id: (\d+)\n(.*?)-->", text, re.S))
@@ -91,6 +148,7 @@ def main():
             table = dict((name, (direction, kind)) for name, direction, kind in re.findall(
                 r"^\| `([^`]+)` \| `([^`]+)` \| `([^`]+)` \|", body, re.M))
             require(table == solution_ports, f"{identifier}: Porttabelle passt nicht zur Musterlösung")
+            check_interfaces(identifier, blocks, solution_ports)
         else:
             number = re.match(r"(\d+\.\d+) ", title)
             previous = number.group(1) if number else None
@@ -102,6 +160,8 @@ def main():
                 if not modules:
                     fragments += 1  # Deklarationen und bewusst schematische Syntax.
                     continue
+                for declaration in re.findall(r"module\s+\w+\s*\(.*?\);", code, re.S):
+                    check_port_names(module_ports(declaration)[1])
                 with tempfile.TemporaryDirectory(prefix="hdlab-example-") as directory:
                     source = Path(directory) / "example.sv"
                     source.write_text(code)
@@ -110,7 +170,7 @@ def main():
                         require(result.returncode == 0, f"{identifier}: Beispiel kompiliert nicht\n{result.stderr}")
                         examples += 1
     print(f"{len(ids)} Lektionen: IDs, Titel, Schwierigkeitsgrade und Inhaltsverzeichnis gültig.")
-    print(f"{exercises} Übungen: Nummerierung, Abschnitte, Porttabellen und Codebereiche gültig.")
+    print(f"{exercises} Übungen: Nummerierung, Codegerüste, Porttabellen und TB-Anschlüsse gültig.")
     print(f"{examples} vollständige Beispielmodule ohne Verilator-Warnungen geprüft; {fragments} Syntaxfragmente separat gezählt.")
     print(f"{len(images)} eingebundene PNGs vorhanden; alle internen Links gültig.")
 

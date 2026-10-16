@@ -74,6 +74,12 @@ Die zentrale Quelle der eingebetteten Prüfhilfen ist `testbenches/helpers.svh`.
 Nach Änderungen `make testbenches` ausführen. Im Markdown sind die Hilfen
 vollständig eingebettet, da HDLab keine zusätzlichen Includes mitliefert.
 Modulnamen, Ports, Breiten und Testbench-Instanz müssen zusammenpassen.
+Portnamen folgen der Konvention im Kurs-Skill: `_in`/`_out`, kurze
+Einbuchstabennamen nur sparsam am Anfang; später deskriptivere Namen wie
+`signal_in`/`signal_out` oder Funktionsnamen. Takt/Reset: `clk_in`/`rst_in`.
+Die TB-Signale wie die angeschlossenen DUT-Ports benennen. Absichtlich noch
+zu ergänzende Ports im Codegerüst mit Richtung und Namen als Kommentar
+vorgeben. `make check-course` prüft dies einschließlich Bitbreite und Vorzeichen.
 Bei reinen Text- oder Layoutänderungen die Codebereiche erhalten.
 
 ## Abbildungen

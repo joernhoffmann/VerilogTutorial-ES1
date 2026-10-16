@@ -94,6 +94,34 @@ und Testbench verwenden. Tests prüfen funktionale Anforderungen; rein
 syntaktische Vorgaben wie ein bestimmter Operator benötigen zusätzlich
 eine Sichtprüfung der Musterlösung.
 
+## Signal- und Portnamen
+
+Für Modulports durchgehend `_in` und `_out` verwenden, keine Kürzel `_i`
+oder `_o`. Einbuchstabige Grundnamen wie `a_in`, `b_in`, `e_in` und `a_out`
+nur sparsam einsetzen, vor allem in den ersten einfachen Beispielen.
+`a_in` und `b_in` passen dort zu einfachen logischen und arithmetischen
+Ausdrücken. Sie sind keine allgemeine Vorgabe für spätere Module.
+Im weiteren Kurs deskriptivere Namen bevorzugen, etwa `sig_in`/`sig_out`,
+`signal_in`/`signal_out` oder Namen der jeweiligen Funktion.
+Nummerierte neutrale Ports wie `e1_in` und `a1_out` sind möglich, aber
+kein Standard, der aussagekräftige Namen verdrängt.
+Takt und Reset heißen `clk_in` und `rst_in`.
+Kurze, aussagekräftige Namen bevorzugen, wenn sie die Schnittstelle oder
+das Lernziel verdeutlichen: etwa `and_out`, `sum_out`, `parity_out`,
+`bin_out`, `hex_out`, `dec_out`, `nine_out` oder `minus_three_out`.
+Solche Namen bei einer Vereinheitlichung erhalten; nicht pauschal durch
+nummerierte neutrale Ports ersetzen. Lange Namen, die bereits
+den gesamten Lösungsweg ausdrücken, vermeiden. Interne Signale benötigen
+keinen Richtungssuffix.
+
+Bei Umbenennungen Beschreibung, Porttabelle, Beispiele, Codegerüst,
+Musterlösung, Testbench einschließlich Prüfausgaben sowie betroffene
+Diagrammquellen und PNGs gemeinsam anpassen. Lokale TB-Signale heißen wie
+die angeschlossenen Modulports. Task-Argumente anders benennen, etwa
+`a_value` und `b_value`, damit sie TB-Signale nicht verdecken. Auch Referenztestbenches und deren gezielt
+fehlerhafte Varianten in den Prüfskripten nachführen. Die historische
+`.sav`-Sicherung bleibt unverändert.
+
 ## Testbenches
 
 Benannte Einzelprüfungen mit ✅/❌ und aussagekräftigen Beschreibungen verwenden.

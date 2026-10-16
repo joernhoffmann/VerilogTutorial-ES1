@@ -13,7 +13,7 @@
             color: rgb("#dbe3ec"), thickness: 0.6, dashed: true)
     label(80 + i * 42, 114, str(i * 5), width: 24, size: 8, color: muted)
   }
-  label(0, 83, [`clk`], width: 50)
+  label(0, 83, [`clk_in`], width: 50)
   label(53, 65, [1], width: 20, size: 8, color: muted)
   label(53, 93, [0], width: 20, size: 8, color: muted)
   trace(100, (0, 1, 0, 1, 0, 1, 0, 1), amplitude: 28)
