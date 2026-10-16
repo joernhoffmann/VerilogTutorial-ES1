@@ -48,8 +48,11 @@ anpassen; keine umfassende Umstrukturierung ohne Auftrag.
 
 ## Aufbau von Übungen
 
-Überschrift mit Nummer und Doppelpunkt, beispielsweise:
-**„3.4. Übung: Bitselektion“**.
+Überschrift mit der Nummer der zugehörigen Lektion, einem Buchstaben und
+Doppelpunkt, beispielsweise **„3.3.a. Übung: Bitselektion“** nach Lektion 3.3.
+Mehrere Übungen zu derselben Lektion erhalten a, b, c usw. Die `lesson_id`
+bleibt unabhängig davon numerisch und bestimmt weiterhin die Reihenfolge.
+Metadatentitel und Inhaltsverzeichnis an die sichtbare Überschrift anpassen.
 
 Danach eine kurze Beschreibung von Zweck und Funktion. Es folgen:
 

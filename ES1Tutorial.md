@@ -27,12 +27,12 @@ Dieses Tutorial begleitet den Kurs *Eingebettete Systeme I* an der HTWK, Fakult�
     - [Bitbreite und Wertebereich](#bitbreite-und-wertebereich)
     - [Hexadezimal: Eine kompakte Schreibweise](#hexadezimal-eine-kompakte-schreibweise)
     - [Zahlenkonstanten in SystemVerilog](#zahlenkonstanten-in-systemverilog)
-  - [1.2. Übung: Zahlen darstellen](#12-übung-zahlen-darstellen)
+  - [1.1.a. Übung: Zahlen darstellen](#11a-übung-zahlen-darstellen)
     - [Schnittstelle](#schnittstelle)
     - [Verhalten](#verhalten)
     - [Realisierung](#realisierung)
   - [1.3 Logische Gatter und Wahrheitstabelle](#13-logische-gatter-und-wahrheitstabelle)
-  - [1.4. Übung: NAND](#14-übung-nand)
+  - [1.3.a. Übung: NAND](#13a-übung-nand)
     - [Schnittstelle](#schnittstelle-1)
     - [Verhalten](#verhalten-1)
     - [Realisierung](#realisierung-1)
@@ -44,66 +44,66 @@ Dieses Tutorial begleitet den Kurs *Eingebettete Systeme I* an der HTWK, Fakult�
     - [Addition und Überlauf](#addition-und-überlauf)
     - [Signed-Werte in SystemVerilog](#signed-werte-in-systemverilog)
     - [Eine negative Zahl auf mehr Bits erweitern](#eine-negative-zahl-auf-mehr-bits-erweitern)
-  - [1.6. Übung: Vorzeichen](#16-übung-vorzeichen)
+  - [1.5.a. Übung: Vorzeichen](#15a-übung-vorzeichen)
     - [Schnittstelle](#schnittstelle-2)
     - [Verhalten](#verhalten-2)
     - [Realisierung](#realisierung-2)
 - [2. Entities und Module](#2-entities-und-module)
   - [2.1 Aufbau einer Komponente](#21-aufbau-einer-komponente)
-  - [2.2. Übung: Assign](#22-übung-assign)
+  - [2.1.a. Übung: Assign](#21a-übung-assign)
     - [Schnittstelle](#schnittstelle-3)
     - [Verhalten](#verhalten-3)
     - [Realisierung](#realisierung-3)
   - [2.3 Ein Interface, mehrere Implementierungen](#23-ein-interface-mehrere-implementierungen)
-  - [2.4. Übung: Alternative Implementierung](#24-übung-alternative-implementierung)
+  - [2.3.a. Übung: Alternative Implementierung](#23a-übung-alternative-implementierung)
     - [Schnittstelle](#schnittstelle-4)
     - [Verhalten](#verhalten-4)
     - [Realisierung](#realisierung-4)
   - [2.5 Port-Richtungen](#25-port-richtungen)
-  - [2.6. Übung: Port-Richtungen](#26-übung-port-richtungen)
+  - [2.5.a. Übung: Port-Richtungen](#25a-übung-port-richtungen)
     - [Schnittstelle](#schnittstelle-5)
     - [Verhalten](#verhalten-5)
     - [Realisierung](#realisierung-5)
 - [3. Signale und Datentypen](#3-signale-und-datentypen)
   - [3.1 Signale und logische Typen](#31-signale-und-logische-typen)
-  - [3.2. Übung: Internes Signal](#32-übung-internes-signal)
+  - [3.1.a. Übung: Internes Signal](#31a-übung-internes-signal)
     - [Schnittstelle](#schnittstelle-6)
     - [Verhalten](#verhalten-6)
     - [Realisierung](#realisierung-6)
   - [3.3 Vektoren und Bit-Indizierung](#33-vektoren-und-bit-indizierung)
-  - [3.4. Übung: Bitselektion](#34-übung-bitselektion)
+  - [3.3.a. Übung: Bitselektion](#33a-übung-bitselektion)
     - [Schnittstelle](#schnittstelle-7)
     - [Verhalten](#verhalten-7)
     - [Realisierung](#realisierung-7)
   - [3.5 Numerische Typen und Konstanten](#35-numerische-typen-und-konstanten)
-  - [3.6. Übung: Numerische Konstanten](#36-übung-numerische-konstanten)
+  - [3.5.a. Übung: Numerische Konstanten](#35a-übung-numerische-konstanten)
     - [Schnittstelle](#schnittstelle-8)
     - [Verhalten](#verhalten-8)
     - [Realisierung](#realisierung-8)
 - [4. Operatoren und Ausdrücke](#4-operatoren-und-ausdrücke)
   - [4.1 Bitweise und logische Operatoren](#41-bitweise-und-logische-operatoren)
-  - [4.2. Übung: Bitweise und logisch](#42-übung-bitweise-und-logisch)
+  - [4.1.a. Übung: Bitweise und logisch](#41a-übung-bitweise-und-logisch)
     - [Schnittstelle](#schnittstelle-9)
     - [Verhalten](#verhalten-9)
     - [Realisierung](#realisierung-9)
   - [4.3 Konkatenation und Replikation](#43-konkatenation-und-replikation)
-  - [4.4. Übung: Zusammensetzen und wiederholen](#44-übung-zusammensetzen-und-wiederholen)
+  - [4.3.a. Übung: Zusammensetzen und wiederholen](#43a-übung-zusammensetzen-und-wiederholen)
     - [Schnittstelle](#schnittstelle-10)
     - [Verhalten](#verhalten-10)
     - [Realisierung](#realisierung-10)
   - [4.5 Arithmetische und relationale Operatoren](#45-arithmetische-und-relationale-operatoren)
-  - [4.6. Übung: Summe und Vergleich](#46-übung-summe-und-vergleich)
+  - [4.5.a. Übung: Summe und Vergleich](#45a-übung-summe-und-vergleich)
     - [Schnittstelle](#schnittstelle-11)
     - [Verhalten](#verhalten-11)
     - [Realisierung](#realisierung-11)
 - [5. Kontinuierliche und bedingte Zuweisungen](#5-kontinuierliche-und-bedingte-zuweisungen)
   - [5.1 Kontinuierliche Zuweisung (assign)](#51-kontinuierliche-zuweisung-assign)
-  - [5.2. Übung: Paritätsgenerator](#52-übung-paritätsgenerator)
+  - [5.1.a. Übung: Paritätsgenerator](#51a-übung-paritätsgenerator)
     - [Schnittstelle](#schnittstelle-12)
     - [Verhalten](#verhalten-12)
     - [Realisierung](#realisierung-12)
   - [5.3 Bedingte Zuweisungen](#53-bedingte-zuweisungen)
-  - [5.4. Übung: Lüfterstufe auswählen](#54-übung-lüfterstufe-auswählen)
+  - [5.3.a. Übung: Lüfterstufe auswählen](#53a-übung-lüfterstufe-auswählen)
     - [Schnittstelle](#schnittstelle-13)
     - [Verhalten](#verhalten-13)
     - [Realisierung](#realisierung-13)
@@ -405,13 +405,13 @@ Die Ausgänge besitzen keine eigene Zahlenbasis. Nur die Schreibweise der Konsta
 
 <!--
 lesson_id: 102
-lesson_title: "1.2. Übung: Zahlen darstellen"
+lesson_title: "1.1.a. Übung: Zahlen darstellen"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 1.2. Übung: Zahlen darstellen
+### 1.1.a. Übung: Zahlen darstellen
 
 Das Modul stellt dieselbe Zahl in drei Schreibweisen bereit.
 
@@ -558,13 +558,13 @@ Die folgende Übersicht zeigt dieselben Funktionen mit den in den USA gebräuchl
 
 <!--
 lesson_id: 104
-lesson_title: "1.4. Übung: NAND"
+lesson_title: "1.3.a. Übung: NAND"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 1.4. Übung: NAND
+### 1.3.a. Übung: NAND
 
 Ein NAND-Gatter verknüpft zwei Eingangssignale und invertiert das AND-Ergebnis.
 
@@ -807,13 +807,13 @@ Negative Zweierkomplementzahlen dürfen daher nicht einfach mit Nullen erweitert
 
 <!--
 lesson_id: 106
-lesson_title: "1.6. Übung: Vorzeichen"
+lesson_title: "1.5.a. Übung: Vorzeichen"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 1.6. Übung: Vorzeichen
+### 1.5.a. Übung: Vorzeichen
 
 Das Modul zeigt, wie positive und negative Zahlen mit gleicher Bitbreite dargestellt werden.
 
@@ -972,13 +972,13 @@ Kommentare beginnen mit `//` und reichen bis zum Zeilenende. Mehrzeilige Komment
 
 <!--
 lesson_id: 202
-lesson_title: "2.2. Übung: Assign"
+lesson_title: "2.1.a. Übung: Assign"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 2.2. Übung: Assign
+### 2.1.a. Übung: Assign
 
 Das Modul leitet einen Eingang weiter und stellt zusätzlich einen festen High-Pegel bereit.
 
@@ -1131,13 +1131,13 @@ Der Begriff Interface meint hier die Port-Schnittstelle. SystemVerilog bietet zu
 
 <!--
 lesson_id: 204
-lesson_title: "2.4. Übung: Alternative Implementierung"
+lesson_title: "2.3.a. Übung: Alternative Implementierung"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 2.4. Übung: Alternative Implementierung
+### 2.3.a. Übung: Alternative Implementierung
 
 Eine alternative NAND-Implementierung soll bei gleicher Schnittstelle dasselbe Verhalten liefern.
 
@@ -1263,13 +1263,13 @@ endmodule
 
 <!--
 lesson_id: 206
-lesson_title: "2.6. Übung: Port-Richtungen"
+lesson_title: "2.5.a. Übung: Port-Richtungen"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 2.6. Übung: Port-Richtungen
+### 2.5.a. Übung: Port-Richtungen
 
 Das Modul verbindet einen Schalter mit einer LED.
 
@@ -1413,13 +1413,13 @@ Hier wird kein Wert gespeichert: `signal_internal` verbindet Eingang und Ausgang
 
 <!--
 lesson_id: 302
-lesson_title: "3.2. Übung: Internes Signal"
+lesson_title: "3.1.a. Übung: Internes Signal"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 3.2. Übung: Internes Signal
+### 3.1.a. Übung: Internes Signal
 
 Ein internes Signal verbindet den Eingang mit dem Ausgang des Moduls.
 
@@ -1548,13 +1548,13 @@ Achten Sie auf passende Breiten: Bei einer Zuweisung an einen kleineren Vektor g
 
 <!--
 lesson_id: 304
-lesson_title: "3.4. Übung: Bitselektion"
+lesson_title: "3.3.a. Übung: Bitselektion"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 3.4. Übung: Bitselektion
+### 3.3.a. Übung: Bitselektion
 
 Das Modul wählt drei einzelne Bits aus einem Datenwort aus und setzt sie zu einem neuen Vektor zusammen.
 
@@ -1709,13 +1709,13 @@ Diese Konstanten ändern sich während des Betriebs nicht. Bei Berechnungen und 
 
 <!--
 lesson_id: 306
-lesson_title: "3.6. Übung: Numerische Konstanten"
+lesson_title: "3.5.a. Übung: Numerische Konstanten"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 3.6. Übung: Numerische Konstanten
+### 3.5.a. Übung: Numerische Konstanten
 
 Benannte Konstanten stellen einen positiven und einen negativen Wert am Ausgang bereit.
 
@@ -1863,13 +1863,13 @@ Bei unbekannten Bits (`x` oder `z`) kann auch der Wahrheitswert unbekannt sein. 
 
 <!--
 lesson_id: 402
-lesson_title: "4.2. Übung: Bitweise und logisch"
+lesson_title: "4.1.a. Übung: Bitweise und logisch"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 4.2. Übung: Bitweise und logisch
+### 4.1.a. Übung: Bitweise und logisch
 
 Das Modul zeigt den Unterschied zwischen bitweisem und logischem AND bei Vektoren.
 
@@ -2006,13 +2006,13 @@ Die letzte Zeile kopiert das höchstwertige Bit viermal. Wenn `low_in` als 4-Bit
 
 <!--
 lesson_id: 404
-lesson_title: "4.4. Übung: Zusammensetzen und wiederholen"
+lesson_title: "4.3.a. Übung: Zusammensetzen und wiederholen"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 4.4. Übung: Zusammensetzen und wiederholen
+### 4.3.a. Übung: Zusammensetzen und wiederholen
 
 Das Modul setzt zwei Datenfelder zusammen und wiederholt ein Datenfeld.
 
@@ -2160,13 +2160,13 @@ Division durch null hat kein gültiges numerisches Ergebnis. Ganzzahlige Divisio
 
 <!--
 lesson_id: 406
-lesson_title: "4.6. Übung: Summe und Vergleich"
+lesson_title: "4.5.a. Übung: Summe und Vergleich"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 4.6. Übung: Summe und Vergleich
+### 4.5.a. Übung: Summe und Vergleich
 
 Das Modul addiert zwei Zahlen und vergleicht sie miteinander.
 
@@ -2326,13 +2326,13 @@ Das einstellige `|` ist hier ein **Reduktionsoperator**: Es verknüpft alle Bits
 
 <!--
 lesson_id: 502
-lesson_title: "5.2. Übung: Paritätsgenerator"
+lesson_title: "5.1.a. Übung: Paritätsgenerator"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 5.2. Übung: Paritätsgenerator
+### 5.1.a. Übung: Paritätsgenerator
 
 Ein Paritätsgenerator ergänzt ein Datenwort um ein Prüfbit für gerade Parität.
 
@@ -2462,13 +2462,13 @@ Achten Sie auf gleich breite und passend typisierte Alternativen. Bei einer unbe
 
 <!--
 lesson_id: 504
-lesson_title: "5.4. Übung: Lüfterstufe auswählen"
+lesson_title: "5.3.a. Übung: Lüfterstufe auswählen"
 difficulty: "intro"
 duration_min: 10
 type: "exercise"
 -->
 
-### 5.4. Übung: Lüfterstufe auswählen
+### 5.3.a. Übung: Lüfterstufe auswählen
 
 Das Modul wählt anhand einer Temperatur eine Lüfterstufe. Es liefert einen Stufencode; die Ansteuerung des realen Lüfters ist nicht Teil der Aufgabe.
 
