@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 520, height: 224, {
   label(0, 0, [Aufbau einer Komponente], width: 520, size: 13)
 

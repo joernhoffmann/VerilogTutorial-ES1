@@ -1,2 +1,2 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #gate-example([AND], [&], `y = a & b`, inverted: false, unary: false)

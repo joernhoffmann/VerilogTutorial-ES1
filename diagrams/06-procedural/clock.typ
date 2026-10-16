@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 500, height: 184, {
   label(0, 0, [Takt · Flanken und Periodendauer], width: 500, size: 13)
   label(72, 35, [steigend (`posedge`)], width: 124, size: 9)

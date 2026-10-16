@@ -15,10 +15,10 @@ Die [README.md](README.md) erläutert den Aufbau und den Bildexport.
 - `ES1Tutorial.md` ist die aktive Inhaltsquelle für HDLab.
 - `ES1Tutorial.md.sav` ist die Sicherung vor der Umstrukturierung. Als Quelle
   für die Übernahme vorhandener Inhalte lesen, aber nicht nebenbei ändern.
-- `diagrams/*.typ` enthält eine kleine Typst-Datei pro Abbildung.
+- `diagrams/NN-kapitel/*.typ` und `*.svg` enthalten die Abbildungsquellen.
 - `diagrams/lib/*.typ` enthält gemeinsame Zeichenbausteine und Gestaltung.
-- `images/generated/*.png` enthält die abgeleiteten Diagramme.
-- `images/basys3.png` enthält das bereitgestellte Herstellerfoto.
+- `images/NN-kapitel/*.png` enthält die abgeleiteten Diagramme.
+- `images/00-introduction/basys3.png` enthält das bereitgestellte Herstellerfoto.
 - Alte Bilder unter `images/model_*` bleiben für die Sicherung erhalten;
   im aktiven Tutorial die neuen Diagramme verwenden.
 
@@ -84,12 +84,16 @@ Bei reinen Text- oder Layoutänderungen die Codebereiche erhalten.
 
 ## Abbildungen
 
-Die aktuelle Entscheidung ist **Typst für die Diagramme**, mit PNG-Ausgabe.
+Die Diagramme werden mit **Typst oder eigenständigen SVG-Quellen** erstellt,
+mit PNG-Ausgabe für HDLab. Typst bleibt auch für SVG der PNG-Renderer.
 Die früher diskutierten Mermaid-, PlantUML- und TikZ-Varianten sind nicht
 mehr der gewählte Buildweg.
 
-- Gemeinsam gestaltete kleine Quelldateien verwenden; externe Pakete sind
-  derzeit nicht erforderlich.
+- Gemeinsam gestaltete kleine Quelldateien verwenden. Typst für technische
+  Diagramme, eigenständiges SVG für freie Konturen oder Grenzen der
+  Typst-Zeichenbausteine; externe Pakete sind derzeit nicht erforderlich.
+- Quellen und Bilder nach Kapiteln ordnen, etwa `diagrams/01-basic/` und
+  `images/01-basic/`. Fotos bleiben unveränderte Rasterbilder.
 - Schrift: DejaVu Sans, für Code DejaVu Sans Mono; weißer Hintergrund,
   dunkle Beschriftung und blaue Akzente.
 - Gatterübersichten in IEC- und US-/ANSI-Darstellung erhalten.
@@ -105,7 +109,8 @@ make rebuild     # Vollständig neu bauen
 make rebuild PPI=240
 ```
 
-Das Makefile erkennt neue `diagrams/*.typ` automatisch. Nach Änderungen
+Das Makefile erkennt `.typ`- und `.svg`-Hauptquellen in
+`diagrams/NN-kapitel/` automatisch. Pro Abbildung genau eine Hauptquelle. Nach Änderungen
 an einer Bibliothek alle betroffenen PNGs bauen und visuell prüfen.
 Die erzeugten PNGs gehören zusammen mit den Quellen zum Repository.
 

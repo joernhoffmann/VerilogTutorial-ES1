@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import subprocess
 import tempfile
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -76,7 +77,28 @@ def check_interfaces(identifier, blocks, solution_ports):
                 f"{identifier}: Breite/Vorzeichen des TB-Signals {signal} passt nicht")
 
 
+def check_figures():
+    outputs = set()
+    sources = sorted((ROOT / "diagrams").glob("[0-9][0-9]-*/*"))
+    for source in sources:
+        if source.suffix not in (".typ", ".svg"):
+            continue
+        target = ROOT / "images" / source.relative_to(ROOT / "diagrams").with_suffix(".png")
+        require(target not in outputs, f"Mehrere Hauptquellen für {target.relative_to(ROOT)}")
+        outputs.add(target)
+        require(target.is_file(), f"PNG zur Quelle fehlt: {source.relative_to(ROOT)}")
+        require(target.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Ungültiger PNG-Export: {target}")
+        if source.suffix == ".svg":
+            require(ET.parse(source).getroot().tag == "{http://www.w3.org/2000/svg}svg",
+                    f"Keine SVG-Quelle: {source.relative_to(ROOT)}")
+    require(outputs, "Keine kapitelweise geordneten Abbildungsquellen gefunden")
+    require(not list((ROOT / "diagrams").glob("*.typ")), "Typst-Quelle ohne Kapitelordner")
+    require(not list((ROOT / "diagrams").glob("*.svg")), "SVG-Quelle ohne Kapitelordner")
+    return len(outputs)
+
+
 def main():
+    figure_count = check_figures()
     text = (ROOT / "ES1Tutorial.md").read_text()
     matches = list(re.finditer(r"<!--\s*\nlesson_id: (\d+)\n(.*?)-->", text, re.S))
     ids = [int(match.group(1)) for match in matches]
@@ -95,6 +117,8 @@ def main():
     images = re.findall(r"!\[([^]]*)\]\(([^)]+)\)", without_code)
     for alt, reference in images:
         require(bool(alt.strip()), f"Bild ohne Beschreibung: {reference}")
+        require(re.fullmatch(r"(?:\./)?images/\d{2}-[a-z0-9-]+/[^/]+\.png", reference),
+                f"Aktives Bild ohne Kapitelordner: {reference}")
         file = ROOT / reference
         require(file.is_file(), f"Bild fehlt: {reference}")
         require(file.read_bytes().startswith(b"\x89PNG\r\n\x1a\n"), f"Kein PNG: {reference}")
@@ -172,6 +196,7 @@ def main():
     print(f"{len(ids)} Lektionen: IDs, Titel, Schwierigkeitsgrade und Inhaltsverzeichnis gültig.")
     print(f"{exercises} Übungen: Nummerierung, Codegerüste, Porttabellen und TB-Anschlüsse gültig.")
     print(f"{examples} vollständige Beispielmodule ohne Verilator-Warnungen geprüft; {fragments} Syntaxfragmente separat gezählt.")
+    print(f"{figure_count} Typst-/SVG-Abbildungen mit PNG-Export in Kapitelordnern vorhanden.")
     print(f"{len(images)} eingebundene PNGs vorhanden; alle internen Links gültig.")
 
 

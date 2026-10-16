@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 420, height: 138, {
   label(0, 0, [Weiterleitung über ein internes Signal], width: 420, size: 13)
   frame(126, 34, 168, 76, dashed: true)

@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 600, height: 344, {
   label(0, 0, [CLB · Logik berechnen und Ergebnisse speichern], width: 600, size: 13)
   frame(76, 34, 448, 86, radius: 8)

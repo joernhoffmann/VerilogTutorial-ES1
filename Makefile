@@ -1,8 +1,10 @@
-# Einzelne Typst-Abbildungen als PNG für HDLab erzeugen.
+# Kapitelweise Typst-/SVG-Quellen als PNG für HDLab erzeugen.
 TYPST ?= typst
 PPI ?= 180
-SOURCES := $(wildcard diagrams/*.typ)
-IMAGES := $(patsubst diagrams/%.typ,images/generated/%.png,$(SOURCES))
+TYPST_SOURCES := $(wildcard diagrams/[0-9][0-9]-*/*.typ)
+SVG_SOURCES := $(wildcard diagrams/[0-9][0-9]-*/*.svg)
+IMAGES := $(patsubst diagrams/%.typ,images/%.png,$(TYPST_SOURCES)) \
+          $(patsubst diagrams/%.svg,images/%.png,$(SVG_SOURCES))
 LIBRARIES := $(wildcard diagrams/lib/*.typ)
 
 .PHONY: all images rebuild clean
@@ -10,11 +12,15 @@ LIBRARIES := $(wildcard diagrams/lib/*.typ)
 all: images
 images: $(IMAGES)
 
-images/generated/%.png: diagrams/%.typ $(LIBRARIES) Makefile | images/generated
+images/%.png: diagrams/%.typ $(LIBRARIES) Makefile
+	mkdir -p "$(@D)"
 	$(TYPST) compile --root . --format png --ppi $(PPI) "$<" "$@"
 
-images/generated:
-	mkdir -p "$@"
+# SVG-Geometrie bleibt als eigenständige, editierbare Quelldatei erhalten.
+# Typst rendert sie ohne weiteren Konverter in ein HDLab-kompatibles PNG.
+images/%.png: diagrams/%.svg $(LIBRARIES) Makefile
+	mkdir -p "$(@D)"
+	$(TYPST) compile --root . --input 'svg=/diagrams/$*.svg' --format png --ppi $(PPI) diagrams/lib/svg.typ "$@"
 
 # Bei geänderter Exportauflösung oder Schriftinstallation vollständig neu bauen.
 rebuild:

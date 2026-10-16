@@ -178,9 +178,14 @@ geprüft werden.
 
 ## Abbildungen und Abschluss
 
-Bestehende Typst-Zeichenbausteine bevorzugen. Neue Abbildungen als kleine
-`diagrams/*.typ`-Dateien erstellen und per `make` nach
-`images/generated/*.png` exportieren. Die PNGs tatsächlich im aktuellen
+Bestehende Typst-Zeichenbausteine für technische Diagramme bevorzugen.
+Freie Konturen oder Abbildungen, die sich damit nicht sinnvoll darstellen
+lassen, als eigenständige SVG-Dateien erstellen (etwa die ANSI-Gatterübersicht).
+Quellen und PNGs in gleichnamigen Kapitelordnern ablegen, zum Beispiel
+`diagrams/01-basic/gates-ansi.svg` und `images/01-basic/gates-ansi.png`.
+Pro Abbildung eine Hauptquelle (`.typ` oder `.svg`) verwenden. `make` erkennt
+beide Formate; Typst rendert auch die SVG-Quellen als PNG für HDLab.
+Herstellerfotos bleiben unveränderte Rasterbilder im passenden Kapitelordner. Die PNGs tatsächlich im aktuellen
 Tutorial einbinden und visuell prüfen. Nicht aus einem erfolgreichen Build
 schließen, dass die Markdown-Verweise bereits ersetzt wurden.
 

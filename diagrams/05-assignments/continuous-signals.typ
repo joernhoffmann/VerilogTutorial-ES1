@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 470, height: 198, {
   label(0, 0, [Signalverlauf einer kontinuierlichen Zuweisung], width: 470, size: 13)
   label(0, 26, [`assign and_out = a_in & b_in;`], width: 470, size: 10, color: muted)

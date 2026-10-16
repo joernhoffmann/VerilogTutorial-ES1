@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 510, height: 376, {
   label(0, 0, [FPGA · programmierbare Logik und Verbindungen], width: 510, size: 13)
   frame(52, 38, 406, 288, fill: rgb("#f8fafc"), radius: 14)

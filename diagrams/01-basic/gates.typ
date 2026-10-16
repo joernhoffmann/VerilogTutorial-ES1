@@ -1,7 +1,6 @@
-#import "lib/style.typ": *
-#import "lib/ansi.typ": ansi-gate
+#import "../lib/style.typ": *
 #diagram(width: 510, height: 296, {
-  label(0, 0, [Logische Gatter · US-/ANSI-Symbole], width: 510, size: 13)
+  label(0, 0, [Logische Gatter · rechteckige IEC-Symbole], width: 510, size: 13)
   for (i, spec) in (
     ([AND], [&], `y = a & b`, false, false),
     ([OR], [≥1], `y = a | b`, false, false),
@@ -13,7 +12,7 @@
     let x = calc.rem(i, 3) * 170
     let y = calc.floor(i / 3) * 125 + 38
     label(x, y, spec.at(0), width: 170, size: 11)
-    ansi-gate(x + 59, y + 24, ("and", "or", "xor", "not", "nand", "nor").at(i))
+    gate(x + 59, y + 24, spec.at(1), inverted: spec.at(3), unary: spec.at(4))
     if spec.at(4) {
       label(x + 14, y + 38, [a], width: 18, size: 9)
     } else {

@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 420, height: 156, {
   label(0, 0, [Weiterleitung und konstanter Ausgang], width: 420, size: 13)
   arrow(76, 58, 350)

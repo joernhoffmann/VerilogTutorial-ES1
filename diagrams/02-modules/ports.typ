@@ -1,4 +1,4 @@
-#import "lib/style.typ": *
+#import "../lib/style.typ": *
 #diagram(width: 420, height: 132, {
   label(0, 0, [Ports eines Moduls], width: 420, size: 13)
   frame(142, 37, 136, 65)
