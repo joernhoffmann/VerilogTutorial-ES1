@@ -46,8 +46,8 @@ type: "theory"
 - IDs müssen eindeutig sein und in der Datei aufsteigend angeordnet werden.
 - Bei Umstellungen IDs, sichtbare Nummerierung, `lesson_title`,
   Inhaltsverzeichnis und betroffene Querverweise gemeinsam anpassen.
-- Vorhandene Werte für `difficulty` sind `intro`, `beginner`,
-  `intermediate` und `advanced`; `type` ist `theory` oder `exercise`.
+- Alle derzeitigen Kursinhalte tragen `difficulty: "intro"`.
+  `type` ist `theory` oder `exercise`.
 - `duration_min` soll zum tatsächlichen Umfang passen.
 - SystemVerilog-Codeblöcke bleiben für HDLab als `verilog` ausgezeichnet.
 
@@ -59,8 +59,19 @@ type: "theory"
 **TESTBENCH_START** ... **TESTBENCH_END**
 ```
 
-Jeder Bereich enthält einen eigenen `verilog`-Codeblock. Die Testbench stellt
-`test_array` und `test_solved` sowie `TEST_LENGTH` und `TEST_WIDTH` bereit.
+Jeder Bereich enthält einen eigenen `verilog`-Codeblock. Testbenches sind
+portlose Module mit benannten Einzelprüfungen, ✅/❌-Ausgaben, Soll-/Istwerten
+bei Fehlern und einer abschließenden Zusammenfassung. Alle Prüfergebnisse
+werden mit `all_passed &= assert_equal(...)` (beziehungsweise der passenden
+Prüffunktion) verknüpft. Kein Kurzschluss-UND verwenden, das Folgeprüfungen
+überspringen könnte.
+
+`finish_tests()` gibt genau eine Zeile `TEST_SOLVED=1` beziehungsweise
+`TEST_SOLVED=0` aus. Die bestehende HDLab-Auswertung erkennt diese Zeile direkt;
+`test_array`, `test_solved`, `TEST_LENGTH` und `TEST_WIDTH` sind nicht mehr nötig.
+Die zentrale Quelle der eingebetteten Prüfhilfen ist `testbenches/helpers.svh`.
+Nach Änderungen `make testbenches` ausführen. Im Markdown sind die Hilfen
+vollständig eingebettet, da HDLab keine zusätzlichen Includes mitliefert.
 Modulnamen, Ports, Breiten und Testbench-Instanz müssen zusammenpassen.
 Bei reinen Text- oder Layoutänderungen die Codebereiche erhalten.
 
@@ -97,10 +108,12 @@ Die Prüfung auf den geänderten Inhalt beschränken:
 
 - Bei redaktionellen Änderungen: Fachlichkeit, vorausgesetztes Wissen,
   Beispiele, Metadaten, Inhaltsverzeichnis und Bildverweise prüfen.
-- Bei Codeänderungen: Musterlösung und Testbench mit Icarus Verilog
-  (`iverilog -g2012`, anschließend `vvp`) prüfen. Die Prüfung muss auch
-  bestätigen, dass alle `test_solved`-Einträge wahr sind; ein erfolgreicher
-  Prozess allein genügt nicht. Isolierte temporäre Dateien verwenden.
+- Bei Codeänderungen: `make check-testbenches` ausführen. Der Prüflauf
+  simuliert die Musterlösungen mit Icarus Verilog, prüft gezielt fehlerhafte
+  Varianten und kontrolliert das `TEST_SOLVED`-Gesamtergebnis. Ein erfolgreicher
+  Simulationsprozess allein genügt nicht. Für den lokalen Verilator-Abgleich
+  steht `make check-testbenches-verilator` bereit. Die Tests verwenden
+  isolierte temporäre Dateien.
 - Bei Abbildungen: PNGs erzeugen, Bildverweise prüfen und die tatsächlichen
   Bilder auf Lesbarkeit, Überlappungen, abgeschnittene Elemente und
   fachlich richtige Verbindungen ansehen.

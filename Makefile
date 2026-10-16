@@ -23,3 +23,14 @@ rebuild:
 # Nur abgeleitete Bilder entfernen; ursprüngliche Bilder und Quellen behalten.
 clean:
 	rm -f $(IMAGES)
+
+# Prüfhilfen in die eigenständigen Markdown-Testbenches übernehmen.
+.PHONY: testbenches check-testbenches check-testbenches-verilator
+testbenches:
+	python3 scripts/sync_test_helpers.py
+
+check-testbenches:
+	python3 scripts/check_testbenches.py
+
+check-testbenches-verilator:
+	python3 scripts/check_testbenches.py --verilator

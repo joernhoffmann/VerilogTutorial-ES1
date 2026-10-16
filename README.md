@@ -65,3 +65,52 @@ automatisch aus SystemVerilog simuliert.
 Die Gatterübersichten `gates.typ` und `gates-ansi.typ` zeigen dieselben Funktionen
 mit IEC- beziehungsweise US-/ANSI-Symbolen. Die US-Konturen sind zentral in
 `diagrams/lib/ansi.typ` definiert und werden als Vektoren in Typst gezeichnet.
+
+## Testbenches
+
+Jede Übung enthält eine eigenständig ausführbare SystemVerilog-Testbench.
+Benannte Einzelprüfungen zeigen ✅/❌; bei Fehlern folgen Soll- und Istwert.
+Alle Prüfungen laufen weiter. `finish_tests()` zeigt die Anzahl bestandener
+Prüfungen und das Gesamtergebnis. `TEST_SOLVED=1` beziehungsweise `0` ist die
+maschinenlesbare Schnittstelle zur bestehenden HDLab-Auswertung.
+Die bisherigen Ergebnisarrays sind dafür nicht erforderlich.
+
+Die Prüfhilfen werden zentral in `testbenches/helpers.svh` gepflegt und in
+die Markdown-Testbenches eingebettet. HDLab benötigt somit keine zusätzliche
+Include-Datei. Die Größenangabe `VALUE_WIDTH` gilt für die Vergleichswerte;
+`assert_equal_signed` ergänzt eine korrekte signed-Ausgabe. Die optionale
+Anzeigebreite von `assert_equal` kürzt nur die binäre Anzeige, nicht den Vergleich.
+Alle Prüfaufrufe werden mit `all_passed &= ...` verknüpft.
+
+```sh
+make testbenches              # Prüfhilfen ins Tutorial übernehmen
+make check-testbenches       # Musterlösungen, Fehlerproben und Prüfhilfen testen
+make check-testbenches-verilator  # Zusätzlich lokaler Verilator-Abgleich
+```
+
+Voraussetzungen: Python 3 und Icarus Verilog (`iverilog`, `vvp`). Der optionale
+Verilator-Abgleich benötigt außerdem Verilator, Make und einen C++-Compiler.
+Die Prüfungen erzeugen ihre Dateien in temporären Verzeichnissen.
+Der Verilator-Abgleich lässt Warnungen sichtbar, behandelt sie aber nicht als
+Abbruchgrund: Einige Versionen warnen bei den absichtlich mehrbitigen
+logischen Operanden in Übung 4.1.a. Die Warnungsbehandlung des installierten
+HDLab-Simulators kann davon abweichen.
+
+`testbenches/clocked-example.sv` ist ein vollständiges, geprüftes Beispiel für
+spätere getaktete Aufgaben: Hintergrundtakt, `tick()`, synchroner High-Reset,
+Datenübernahme, Halten des Wertes und Watchdog. Es ist noch keine zusätzliche
+Kursübung. Die Zeitangaben verwenden derzeit die Standardzeiteinheit des
+Simulators, damit die unveränderten DUTs keine gemischten Timescales erhalten.
+
+Die aktiven Übungen verwenden kompakte, benannte Fälle einschließlich
+Grenzwerten und Zustandswechseln der Eingaben. Bei der Bitselektion werden
+beispielsweise alle Eingangspositionen einzeln geprüft; beim Lüfter alle
+Schwellen in beiden Richtungen. Diese Auswahl ersetzt die bisherigen langen
+Tabellen und Vollsweeps. Ein Timeout verhindert ein endloses Warten.
+Der lokale HDLab-Worker läuft höchstens 100 Zeitschritte; die Testbenches
+enden vorher, ihr Watchdog meldet nach 90 Einheiten einen Fehler.
+
+X/Z-Tests laufen mit Icarus Verilog als 4-State-Simulator. Im 2-State-Simulator
+Verilator werden sie mit einer bedingten Übersetzung ausgelassen, damit die
+Ausgabe keine erfolgreiche X/Z-Prüfung vortäuscht. Simulatorläufe und die
+Prüfung des Ausgabeprotokolls ersetzen keinen Test einer laufenden HDLab-Instanz.

@@ -87,6 +87,38 @@ und Testbench verwenden. Tests prüfen funktionale Anforderungen; rein
 syntaktische Vorgaben wie ein bestimmter Operator benötigen zusätzlich
 eine Sichtprüfung der Musterlösung.
 
+## Testbenches
+
+Benannte Einzelprüfungen mit ✅/❌ und aussagekräftigen Beschreibungen verwenden.
+Fehler nennen Ausgang, Eingangssituation, Soll- und Istwert. Am Ende stehen
+Anzahl bestandener Prüfungen und ein mit UND verknüpftes Gesamtergebnis.
+Das Format `TEST_SOLVED=1` beziehungsweise `0` ermöglicht HDLab die Auswertung
+ohne Ergebnisarrays. Ein Fehler darf die folgenden Prüfungen nicht verhindern.
+Keine ausgeführten Prüfungen oder ein Timeout müssen zum Fehlschlag führen.
+
+Die Hilfen `assert_equal`, `assert_equal_signed`, `assert_true` und
+`finish_tests` liegen in `testbenches/helpers.svh`. Im Tutorial müssen sie
+innerhalb jeder Testbench eingebettet sein; `make testbenches` synchronisiert
+sie. Vergleiche verwenden `===`. `VALUE_WIDTH` muss den breitesten geprüften
+Wert aufnehmen; schmalere Werte bei Bedarf explizit erweitern. Signed-Werte
+mit der signed-Prüfhilfe vergleichen. Die optionale Anzeigebreite von
+`assert_equal` verändert nicht die Vergleichsbreite.
+
+Gezielte Fälle, Grenzwerte und Rückkehr zu früheren Eingaben auswählen.
+Sollwerte möglichst unabhängig von der Musterlösung festlegen. Die aktuellen
+Übungen sind kombinatorisch. Für spätere getaktete Aufgaben zeigt
+`testbenches/clocked-example.sv` Takterzeugung, `tick()` und einen synchronen,
+High-aktiven Reset. Reset-Semantik jeweils aus der Aufgabe ableiten. Eingänge
+an der fallenden Flanke ändern und nach der steigenden Flanke erst nach den
+Nonblocking-Zuweisungen prüfen. Jeder Ablauf benötigt einen Timeout.
+
+HDLab verwendet Verilator mit zwei Zuständen. X/Z-Prüfungen nur im
+4-State-Simulator ausführen und in Verilator nicht als bewiesene Eigenschaft
+ausgeben. Der lokale HDLab-Worker begrenzt den Lauf auf 100 Zeitschritte;
+die aktuellen Testbenches beenden sich vorher oder melden über den Watchdog
+einen Fehler. Bei künftigen längeren Tests muss die Laufzeitunterstützung
+geprüft werden.
+
 ## Fachliche Leitlinien
 
 - Zahlenwert, Bitmuster, Zahlenbasis, Bitbreite und Vorzeicheninterpretation
